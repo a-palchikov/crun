@@ -1192,6 +1192,8 @@ static int
 do_mount_cgroup_v2 (libcrun_container_t *container, int targetfd, const char *target, unsigned long mountflags,
                     const char *unified_cgroup_path, libcrun_error_t *err)
 {
+  libcrun_warning("in do_mount_cgroup_v2");
+
   int ret;
   int cgroup_mode;
 
@@ -1255,6 +1257,8 @@ static int
 do_mount_cgroup_systemd_v1 (libcrun_container_t *container, const char *source, int targetfd, const char *target,
                             unsigned long mountflags, libcrun_error_t *err)
 {
+  libcrun_warning("in do_mount_cgroup_systemd_v1");
+
   int ret;
   cleanup_close int fd = -1;
   const char *subsystem = "systemd";
@@ -1293,6 +1297,8 @@ static int
 do_mount_cgroup_v1 (libcrun_container_t *container, const char *source, int targetfd, const char *target,
                     unsigned long mountflags, libcrun_error_t *err)
 {
+  libcrun_warning("in do_mount_cgroup_v1");
+
   int ret;
   cleanup_free char *content = NULL;
   char *from;
@@ -1429,6 +1435,8 @@ static int
 do_mount_cgroup (libcrun_container_t *container, const char *source, int targetfd, const char *target,
                  unsigned long mountflags, const char *unified_cgroup_path, libcrun_error_t *err)
 {
+  libcrun_warning("in do_mount_cgroup");
+
   int cgroup_mode;
 
   cgroup_mode = libcrun_get_cgroup_mode (err);
