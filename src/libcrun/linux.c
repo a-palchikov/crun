@@ -1903,6 +1903,8 @@ get_force_cgroup_v1_annotation (libcrun_container_t *container)
 static int
 do_mounts (libcrun_container_t *container, int rootfsfd, const char *rootfs, const char *unified_cgroup_path, libcrun_error_t *err)
 {
+  libcrun_warning("in do_mounts");
+
   size_t i;
   int ret;
   runtime_spec_schema_config_schema *def = container->container_def;
@@ -2395,6 +2397,8 @@ make_parent_mount_private (const char *rootfs, libcrun_error_t *err)
 int
 libcrun_set_mounts (struct container_entrypoint_s *entrypoint_args, libcrun_container_t *container, const char *rootfs, set_mounts_cb_t cb, void *cb_data, libcrun_error_t *err)
 {
+  libcrun_warning("in libcrun_set_mounts");
+
   runtime_spec_schema_config_schema *def = container->container_def;
   cleanup_free char *unified_cgroup_path = NULL;
   cleanup_close int rootfsfd_cleanup = -1;
