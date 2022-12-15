@@ -1,0 +1,13 @@
+
+BUILDDIR := _build
+
+.PHONY: all
+all: | $(BUILDDIR)
+	buildctl build \
+		--frontend dockerfile.v0 \
+		--local context=. \
+		--local dockerfile=. \
+		--output type=local,dest=$(BUILDDIR)
+
+$(BUILDDIR):
+	@mkdir -p $@

@@ -1342,6 +1342,7 @@ do_mount_cgroup_v1 (libcrun_container_t *container, const char *source, int targ
       if (it)
         subsystem = it + 5;
 
+      libcrun_warning("looking at subsystem `%s`", subsystem);
       if (strcmp (subsystem, "net_prio,net_cls") == 0)
         subsystem = "net_cls,net_prio";
       if (strcmp (subsystem, "cpuacct,cpu") == 0)
@@ -1353,7 +1354,10 @@ do_mount_cgroup_v1 (libcrun_container_t *container, const char *source, int targ
 
       /* if there is already a mount specified, do not add a default one.  */
       if (has_mount_for (container, source_subsystem))
+        {
+        libcrun_warning("existing mount for subsystem `%s`", subsystem);
         continue;
+        }
 
       ret = append_paths (&source_path, err, source_subsystem, subpath, NULL);
       if (UNLIKELY (ret < 0))
@@ -1363,6 +1367,7 @@ do_mount_cgroup_v1 (libcrun_container_t *container, const char *source, int targ
       if (UNLIKELY (ret < 0))
         return ret;
 
+      libcrun_warning("creating dir for subsystem `%s`", subsystem);
       ret = mkdirat (targetfd, subsystem, 0755);
       if (UNLIKELY (ret < 0))
         return crun_make_error (err, errno, "mkdir `%s`", subsystem_path);
