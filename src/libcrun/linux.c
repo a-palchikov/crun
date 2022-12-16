@@ -1192,8 +1192,6 @@ static int
 do_mount_cgroup_v2 (libcrun_container_t *container, int targetfd, const char *target, unsigned long mountflags,
                     const char *unified_cgroup_path, libcrun_error_t *err)
 {
-  libcrun_warning("in do_mount_cgroup_v2");
-
   int ret;
   int cgroup_mode;
 
@@ -1257,8 +1255,6 @@ static int
 do_mount_cgroup_systemd_v1 (libcrun_container_t *container, const char *source, int targetfd, const char *target,
                             unsigned long mountflags, libcrun_error_t *err)
 {
-  libcrun_warning("in do_mount_cgroup_systemd_v1");
-
   int ret;
   cleanup_close int fd = -1;
   const char *subsystem = "systemd";
@@ -1297,8 +1293,6 @@ static int
 do_mount_cgroup_v1 (libcrun_container_t *container, const char *source, int targetfd, const char *target,
                     unsigned long mountflags, libcrun_error_t *err)
 {
-  libcrun_warning("in do_mount_cgroup_v1");
-
   int ret;
   cleanup_free char *content = NULL;
   char *from;
@@ -1348,7 +1342,6 @@ do_mount_cgroup_v1 (libcrun_container_t *container, const char *source, int targ
       if (it)
         subsystem = it + 5;
 
-      libcrun_warning("looking at subsystem `%s`", subsystem);
       if (strcmp (subsystem, "net_prio,net_cls") == 0)
         subsystem = "net_cls,net_prio";
       if (strcmp (subsystem, "cpuacct,cpu") == 0)
@@ -1360,10 +1353,7 @@ do_mount_cgroup_v1 (libcrun_container_t *container, const char *source, int targ
 
       /* if there is already a mount specified, do not add a default one.  */
       if (has_mount_for (container, source_subsystem))
-        {
-        libcrun_warning("existing mount for subsystem `%s`", subsystem);
         continue;
-        }
 
       ret = append_paths (&source_path, err, source_subsystem, subpath, NULL);
       if (UNLIKELY (ret < 0))
@@ -1373,7 +1363,6 @@ do_mount_cgroup_v1 (libcrun_container_t *container, const char *source, int targ
       if (UNLIKELY (ret < 0))
         return ret;
 
-      libcrun_warning("creating dir for subsystem `%s`", subsystem);
       ret = mkdirat (targetfd, subsystem, 0755);
       if (UNLIKELY (ret < 0))
         return crun_make_error (err, errno, "mkdir `%s`", subsystem_path);
@@ -1435,8 +1424,6 @@ static int
 do_mount_cgroup (libcrun_container_t *container, const char *source, int targetfd, const char *target,
                  unsigned long mountflags, const char *unified_cgroup_path, libcrun_error_t *err)
 {
-  libcrun_warning("in do_mount_cgroup");
-
   int cgroup_mode;
 
   cgroup_mode = libcrun_get_cgroup_mode (err);
@@ -1903,8 +1890,6 @@ get_force_cgroup_v1_annotation (libcrun_container_t *container)
 static int
 do_mounts (libcrun_container_t *container, int rootfsfd, const char *rootfs, const char *unified_cgroup_path, libcrun_error_t *err)
 {
-  libcrun_warning("in do_mounts");
-
   size_t i;
   int ret;
   runtime_spec_schema_config_schema *def = container->container_def;
@@ -2397,8 +2382,6 @@ make_parent_mount_private (const char *rootfs, libcrun_error_t *err)
 int
 libcrun_set_mounts (struct container_entrypoint_s *entrypoint_args, libcrun_container_t *container, const char *rootfs, set_mounts_cb_t cb, void *cb_data, libcrun_error_t *err)
 {
-  libcrun_warning("in libcrun_set_mounts");
-
   runtime_spec_schema_config_schema *def = container->container_def;
   cleanup_free char *unified_cgroup_path = NULL;
   cleanup_close int rootfsfd_cleanup = -1;

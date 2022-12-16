@@ -965,9 +965,6 @@ static int
 container_init_setup (void *args, pid_t own_pid, char *notify_socket,
                       int sync_socket, char **exec_path, libcrun_error_t *err)
 {
-  libcrun_warning("in container_init_setup");
-  libcrun_error("in container_init_setup");
-
   struct container_entrypoint_s *entrypoint_args = args;
   libcrun_container_t *container = entrypoint_args->container;
   bool chdir_done = false;
