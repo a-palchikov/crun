@@ -1,0 +1,27 @@
+
+BUILDDIR := _build
+
+.PHONY: all
+all: build
+
+build: | $(BUILDDIR)
+	buildctl build \
+		--frontend dockerfile.v0 \
+		--local context=. \
+		--local dockerfile=. \
+		--output type=local,dest=$(BUILDDIR)
+
+builder-shell:
+	buildctl build \
+		--frontend dockerfile.v0 \
+		--local context=. \
+		--local dockerfile=. \
+		--opt target=builder-releaser \
+		--output type=docker,name=crun-builder:dev | docker load
+	docker run -ti --rm \
+		-v $(pwd):/src \
+		-w /src \
+		crun-builder:dev bash
+
+$(BUILDDIR):
+	@mkdir -p $@
